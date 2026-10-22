@@ -1,9 +1,17 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  cacheComponents: true,
-  partialPrefetching: true,
+  output: "export",
+
+  cacheComponents: false,
+  partialPrefetching: false,
+
+  images: {
+    unoptimized: true,
+  },
+
+  trailingSlash: true,
+
   turbopack: {
     rules: {
       "*.css": {
@@ -12,7 +20,7 @@ const nextConfig: NextConfig = {
       },
     },
   },
-  output: "export",
+
   sassOptions: {
     includePaths: ["./app"],
   },
