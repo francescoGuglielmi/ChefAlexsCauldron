@@ -1,0 +1,27 @@
+@use '../../app/variables.scss' as *;
+
+.imageWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.image {
+  display: block;
+  width: 30%;
+  height: auto;
+}
+
+.slogan {
+  text-align: center;
+  font-size: 3rem;
+  font-family: $title_font_family, sans-serif;
+  h2 {
+    margin: 10px;
+  }
+}
+
+.titleHighlight {
+  color: $text_highlight_color;
+  font-family: $title_font_family, sans-serif;
+}
