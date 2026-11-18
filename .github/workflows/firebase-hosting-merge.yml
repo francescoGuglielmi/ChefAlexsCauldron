@@ -11,7 +11,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: npm ci && npm run build
+      # Same Bun version as local, read from "packageManager" in package.json.
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: package.json
+      # Next.js itself runs on Node; pin a version it supports.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      # --frozen-lockfile fails the build if bun.lock is out of date.
+      - run: bun install --frozen-lockfile
+      - run: bun run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
