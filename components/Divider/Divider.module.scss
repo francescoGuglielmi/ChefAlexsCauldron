@@ -1,0 +1,34 @@
+@use '../../app/variables.scss' as *;
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 2.5rem auto;
+  max-width: 22rem;
+
+  // Lines fade out towards the ends so the ornament feels hand-placed.
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+  }
+
+  &::before {
+    background: linear-gradient(to right, transparent, $gold_line);
+  }
+
+  &::after {
+    background: linear-gradient(to left, transparent, $gold_line);
+  }
+}
+
+// The image is used as a mask, so the ornament takes any colour.
+.fleur {
+  width: 1.6rem;
+  height: 1.85rem;
+  background: $gold;
+  mask: url('/images/fleur-de-lis.webp') center / contain no-repeat;
+  -webkit-mask: url('/images/fleur-de-lis.webp') center / contain no-repeat;
+}

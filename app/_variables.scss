@@ -1,4 +1,30 @@
-$main_text_color: #000;
-$header_background_color: #f8f9fa;
-$title_font_family: var(--font-chancery), sans-serif; 
-$text_highlight_color: #ff6347;
+// Palette taken from the crest. $charcoal matches the logo's own
+// background so the logo sits on the page without a visible edge.
+$charcoal: #0f0d0d;
+$charcoal_raised: #181413;
+$gold: #e3ad3c;
+$gold_bright: #fabe12;
+$gold_line: rgba(227, 173, 60, 0.35);
+$parchment: #efe4cf;
+$parchment_muted: #b9ab93;
+$oxblood: #9c2a1f;
+$oxblood_bright: #c8412f;
+
+// Kept for existing components; now mapped onto the palette.
+$main_text_color: $parchment;
+$header_background_color: $charcoal_raised;
+$text_highlight_color: $oxblood_bright;
+
+// Fonts: Chancery for the brand and display lines, IM Fell English
+// for reading text, Geist sans for nav, buttons and form labels.
+$title_font_family: var(--font-chancery), serif;
+$body_font_family: var(--font-fell), Georgia, serif;
+$ui_font_family: var(--font-geist-sans), system-ui, sans-serif;
+
+// Styles are written mobile-first; use these with min-width queries.
+$breakpoint_tablet: 768px;
+$breakpoint_desktop: 1024px;
+
+// Menu page: ink and paper colours sampled from the original menu artwork.
+$menu_ink: #46302a;
+$menu_paper: #fbf6ec;

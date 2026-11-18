@@ -1,27 +1,241 @@
 @use '../../app/variables.scss' as *;
 
-.imageWrapper {
+.home {
+  padding-bottom: 3rem;
+}
+
+.logoWrapper {
   width: 100%;
   display: flex;
   justify-content: center;
+  padding: 1.5rem 1rem 0;
+  // Lets the glow spill past the logo without causing sideways scroll.
+  overflow-x: clip;
+
+  @media (min-width: $breakpoint_desktop) {
+    padding-top: 1.75rem;
+  }
 }
 
-.image {
+// Logo fills most of a phone screen, then shrinks
+// proportionally as the viewport gets wider.
+.logoStage {
+  position: relative;
+  width: 90%;
+  max-width: 420px;
+
+  @media (min-width: $breakpoint_tablet) {
+    width: 45%;
+  }
+
+  @media (min-width: $breakpoint_desktop) {
+    width: 30%;
+  }
+}
+
+.logo {
   display: block;
-  width: 30%;
+  width: 100%;
   height: auto;
+  // Hidden until the image has loaded; .logoVisible then plays the reveal.
+  opacity: 0;
+}
+
+// Emerges from black while swelling to full size. The swell runs
+// the whole 4s so it stays visible after the logo has faded in.
+.logoVisible {
+  animation: logoReveal 4s cubic-bezier(0.33, 0, 0.2, 1) forwards;
+
+  // Reduce-motion setting: keep the fade from black, drop the swell.
+  @media (prefers-reduced-motion: reduce) {
+    animation-name: logoRevealNoSwell;
+  }
+}
+
+@keyframes logoReveal {
+  0% { opacity: 0; filter: brightness(0); transform: scale(0.86); }
+  35% { opacity: 1; }
+  100% { opacity: 1; filter: brightness(1); transform: scale(1); }
+}
+
+@keyframes logoRevealNoSwell {
+  0% { opacity: 0; filter: brightness(0); }
+  35% { opacity: 1; }
+  100% { opacity: 1; filter: brightness(1); }
+}
+
+// "Screen" blending only ever adds light, so the glow warms the
+// crest and the black around it without showing any hard edges.
+.glow {
+  position: absolute;
+  inset: -18%;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background: radial-gradient(
+    circle at 50% 62%,
+    rgba($gold_bright, 0.22) 0%,
+    rgba($oxblood_bright, 0.1) 35%,
+    transparent 65%
+  );
+  opacity: 0;
+}
+
+// Fades in as the logo finishes, then flickers like candlelight.
+.glowVisible {
+  animation:
+    glowIn 2.5s ease-out 2.5s forwards,
+    flicker 7s ease-in-out 5s infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: glowIn 2.5s ease-out 2.5s forwards;
+  }
+}
+
+@keyframes glowIn {
+  to { opacity: 1; }
+}
+
+// Uneven steps so the flicker never looks like a regular pulse.
+@keyframes flicker {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  12% { opacity: 0.82; transform: scale(0.98); }
+  20% { opacity: 0.95; transform: scale(1.01); }
+  38% { opacity: 0.75; transform: scale(0.97); }
+  52% { opacity: 1; transform: scale(1.02); }
+  70% { opacity: 0.86; transform: scale(0.99); }
+  84% { opacity: 0.97; transform: scale(1.01); }
 }
 
 .slogan {
   text-align: center;
-  font-size: 3rem;
-  font-family: $title_font_family, sans-serif;
+  // Scales with the viewport between 2.5rem and 3rem.
+  font-size: clamp(2.5rem, 7.5vw, 3rem);
+  line-height: 1.2;
+  padding: 0 1rem;
+  color: $parchment;
+  font-family: $title_font_family;
+  animation: riseIn 1.6s ease-out 1.6s both;
+
   h2 {
     margin: 10px;
+    // Evens out line lengths so a single word isn't left on its own.
+    text-wrap: balance;
+  }
+
+  @media (min-width: $breakpoint_desktop) {
+    margin-top: 0.25rem;
   }
 }
 
 .titleHighlight {
   color: $text_highlight_color;
-  font-family: $title_font_family, sans-serif;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem 2rem;
+  margin-top: 1.5rem;
+  padding: 0 1rem;
+
+  @media (min-width: $breakpoint_desktop) {
+    margin-top: 1rem;
+  }
+  animation: riseIn 1.6s ease-out 2.2s both;
+}
+
+// Slogan and buttons follow the logo in; static with reduced motion.
+@keyframes riseIn {
+  from { opacity: 0; transform: translateY(0.75rem); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slogan,
+  .actions {
+    animation: none;
+  }
+}
+
+.buttonOutline {
+  display: inline-block;
+  padding: 0.95rem 1.6rem;
+  border: 1px solid $gold;
+  color: $gold;
+  font-family: $ui_font_family;
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+
+  &:hover,
+  &:focus-visible {
+    background-color: $gold;
+    color: $charcoal;
+  }
+
+  &:focus-visible {
+    outline: 1px solid $gold;
+    outline-offset: 3px;
+  }
+}
+
+// Wax seal: slightly uneven round, lit from the top left,
+// with a pressed inner ring and stamped-in lettering.
+.seal {
+  position: relative;
+  width: 7.5rem;
+  height: 7.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 49% 51% 47% 53% / 52% 47% 53% 48%;
+  background: radial-gradient(circle at 35% 30%, $oxblood_bright, $oxblood 55%, #64170f 100%);
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.55),
+    inset 4px 4px 8px rgba(255, 255, 255, 0.14),
+    inset -5px -6px 12px rgba(0, 0, 0, 0.4);
+  color: $parchment;
+  text-decoration: none;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.45);
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0.55rem;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255, 220, 200, 0.3);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35);
+  }
+
+  &:hover,
+  &:focus-visible {
+    transform: rotate(-8deg) scale(1.05);
+  }
+
+  &:focus-visible {
+    outline: 1px solid $gold;
+    outline-offset: 4px;
+  }
+}
+
+.sealSmall {
+  font-family: $ui_font_family;
+  font-size: 0.68rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  // Optical centring: letter-spacing adds space after the last letter.
+  margin-right: -0.24em;
+}
+
+.sealBig {
+  font-family: $title_font_family;
+  font-size: 1.65rem;
+  line-height: 1;
+  margin-top: 0.15rem;
 }

@@ -1,0 +1,131 @@
+@use '../../app/variables.scss' as *;
+
+// Same centred column and script heading as the About page.
+.contact {
+  max-width: 36rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 4rem;
+
+  @media (min-width: $breakpoint_tablet) {
+    padding: 4rem 2rem 5rem;
+  }
+}
+
+.title {
+  text-align: center;
+  font-family: $title_font_family;
+  font-size: clamp(2.75rem, 9vw, 3.5rem);
+  line-height: 1.1;
+  color: $parchment;
+  margin: 0 0 1.5rem;
+}
+
+.titleHighlight {
+  color: $text_highlight_color;
+}
+
+.intro {
+  font-size: 1.12rem;
+  line-height: 1.75;
+  color: $parchment;
+  text-align: center;
+  margin: 0;
+}
+
+.emailLink {
+  color: $gold;
+  text-decoration: underline;
+  text-decoration-color: $gold_line;
+  text-underline-offset: 3px;
+  word-break: break-all;
+
+  &:hover {
+    text-decoration-color: $gold;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+// Date and guests stack on phones, sit side by side from tablet up.
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+
+  @media (min-width: $breakpoint_tablet) {
+    flex-direction: row;
+
+    .field {
+      flex: 1;
+    }
+  }
+}
+
+// Labels in the same small-caps sans as the nav: the modern half.
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-family: $ui_font_family;
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: $parchment_muted;
+
+  // 16px+ text stops iOS Safari zooming in when an input is focused.
+  input,
+  textarea {
+    font-family: $body_font_family;
+    font-size: 1.05rem;
+    letter-spacing: normal;
+    text-transform: none;
+    padding: 0.8rem 0.9rem;
+    border: 1px solid $gold_line;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.03);
+    color: $parchment;
+    transition: border-color 0.25s ease, background-color 0.25s ease;
+
+    &:focus {
+      outline: none;
+      border-color: $gold;
+      background: rgba(255, 255, 255, 0.05);
+    }
+  }
+
+  textarea {
+    resize: vertical;
+  }
+}
+
+.submit {
+  align-self: stretch;
+  margin-top: 0.5rem;
+  padding: 1rem 1.75rem;
+  border-radius: 2px;
+  background: $oxblood;
+  color: $parchment;
+  font-family: $ui_font_family;
+  font-size: 0.82rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+
+  &:hover {
+    background: $oxblood_bright;
+  }
+
+  &:focus-visible {
+    outline: 1px solid $gold;
+    outline-offset: 3px;
+  }
+
+  @media (min-width: $breakpoint_tablet) {
+    align-self: center;
+  }
+}

@@ -1,0 +1,201 @@
+@use '../../app/variables.scss' as *;
+
+// Frame piece sizes as a share of the page width. The artwork is
+// 1240px wide, so e.g. the 440px top band is 440/1240 = 35.48cqw.
+$frame_top: 35.48cqw;
+$frame_bottom: 37.02cqw;
+$frame_side: 12.1cqw;
+
+// Where text may appear: clear of the crest, corners and side vines.
+$text_top: 34cqw;
+$text_bottom: 32cqw;
+$text_side: 13.5cqw;
+
+// Phones held upright: the frame fills the screen and only the text scrolls.
+$fixed_frame: "(max-width: #{$breakpoint_tablet - 1px}) and (orientation: portrait)";
+
+.menu {
+  background: $charcoal;
+  color: $menu_ink;
+  min-height: 100%;
+
+  @media (min-width: $breakpoint_tablet), (orientation: landscape) {
+    padding: 2rem 1rem;
+  }
+
+  @media #{$fixed_frame} {
+    height: 100%;
+  }
+}
+
+// Lock the page to the screen height so the menu scrolls inside the frame.
+@media #{$fixed_frame} {
+  :global(body):has(.menu) {
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  :global(main):has(.menu) {
+    min-height: 0;
+  }
+}
+
+// The "sheet" the frame wraps. cqw units below are relative to its width.
+.page {
+  position: relative;
+  container-type: inline-size;
+  max-width: 860px;
+  margin: 0 auto;
+  background: $menu_paper;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+
+  @media #{$fixed_frame} {
+    height: 100%;
+  }
+}
+
+.frame {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.frameTop,
+.frameBottom,
+.frameLeft,
+.frameRight {
+  position: absolute;
+}
+
+.frameTop {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: $frame_top;
+  background: url('/images/menu-frame-top.webp') center / 100% 100% no-repeat;
+}
+
+.frameBottom {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: $frame_bottom;
+  background: url('/images/menu-frame-bottom.webp') center / 100% 100% no-repeat;
+}
+
+// Side vines repeat to any height; "round" fits a whole number of
+// repeats so the vine always meets the bottom band cleanly.
+.frameLeft,
+.frameRight {
+  top: $frame_top;
+  bottom: $frame_bottom;
+  width: $frame_side;
+  background-size: 100% auto;
+  background-repeat: no-repeat round;
+}
+
+.frameLeft {
+  left: 0;
+  background-image: url('/images/menu-frame-left.webp');
+}
+
+.frameRight {
+  right: 0;
+  background-image: url('/images/menu-frame-right.webp');
+}
+
+.scroll {
+  position: relative;
+  padding: $text_top $text_side $text_bottom;
+
+  @media #{$fixed_frame} {
+    position: absolute;
+    inset: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    // Text fades out as it slides under the top and bottom ornaments.
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 26cqw,
+      #000 $text_top,
+      #000 calc(100% - #{$text_bottom}),
+      transparent calc(100% - 26cqw)
+    );
+  }
+}
+
+.section + .section {
+  margin-top: 2rem;
+}
+
+.sectionTitle {
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  font-size: 1.75rem;
+  line-height: 1.15;
+  margin: 0 0 1rem;
+
+  @media (min-width: $breakpoint_tablet) {
+    font-size: 2.2rem;
+  }
+}
+
+.italic {
+  font-style: italic;
+}
+
+// One column on phones; two columns like the printed menu from tablet up.
+.dishes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1.25rem 2rem;
+
+  @media (min-width: $breakpoint_tablet) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.dish {
+  text-align: center;
+
+  // An odd dish out sits centred under the two columns, as on the original.
+  @media (min-width: $breakpoint_tablet) {
+    &:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+      justify-self: center;
+      max-width: 50%;
+    }
+
+    &:only-child {
+      max-width: none;
+    }
+  }
+}
+
+.dishName {
+  font-size: 1.2rem;
+  line-height: 1.3;
+  margin: 0 0 0.3rem;
+}
+
+.dishDescription {
+  font-size: 1.02rem;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.original {
+  display: block;
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.95rem;
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

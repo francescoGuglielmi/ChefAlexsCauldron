@@ -1,8 +1,5 @@
-import Image from "next/image";
+import MenuPage from "@/components/MenuPage/MenuPage";
 
-export default function MenuPage() {
-  return (
-    <div>
-    </div>
-  );
+export default function Menu() {
+  return <MenuPage />;
 }

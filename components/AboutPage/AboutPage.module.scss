@@ -1,0 +1,52 @@
+@use '../../app/variables.scss' as *;
+
+// Same centred column, script headings and highlighted
+// first letter as the homepage slogan.
+.about {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 4rem;
+
+  @media (min-width: $breakpoint_tablet) {
+    padding: 4rem 2rem 5rem;
+  }
+}
+
+.title {
+  text-align: center;
+  font-family: $title_font_family;
+  font-size: clamp(2.75rem, 9vw, 3.5rem);
+  line-height: 1.1;
+  color: $parchment;
+  margin: 0 0 2rem;
+}
+
+.subtitle {
+  text-align: center;
+  font-family: $title_font_family;
+  font-size: clamp(2.1rem, 7vw, 2.6rem);
+  line-height: 1.2;
+  color: $parchment;
+  margin: 0 0 1.5rem;
+}
+
+.titleHighlight {
+  color: $text_highlight_color;
+}
+
+.content p {
+  font-size: 1.12rem;
+  line-height: 1.75;
+  color: $parchment;
+  margin: 0 0 1.25rem;
+}
+
+// Illuminated-manuscript style opening letter.
+.dropCap::first-letter {
+  float: left;
+  font-family: $title_font_family;
+  font-size: 4.2em;
+  line-height: 0.8;
+  margin: 0.08em 0.12em 0 0;
+  color: $gold;
+}
